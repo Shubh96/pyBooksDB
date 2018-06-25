@@ -2,7 +2,9 @@ from tkinter import  *
 from tkinter import messagebox, ttk
 from datetime import datetime as dt
 import time as t
-import backend
+from backend import Database
+
+db = Database("books.db")
 
 def showClock():
     date = "Date: " + str(dt.today().day) + "/" + str(dt.today().month) + "/" + str(dt.today().year)
@@ -30,20 +32,20 @@ def getSelectedRow(event):
 
 def view():
     listBox.delete(0, END)
-    for row in backend.viewData():
+    for row in db.viewData():
         listBox.insert(END, row)
 
 def search():
     listBox.delete(0, END)
-    for row in backend.searchData(title.get(), author.get(), year.get(), isbn.get()):
+    for row in db.searchData(title.get(), author.get(), year.get(), isbn.get()):
         listBox.insert(END, row)
 
 def insert():
-    backend.insertData(title.get(), author.get(), year.get(), isbn.get())
+    db.insertData(title.get(), author.get(), year.get(), isbn.get())
     view()
 
 def delete():
-    backend.deleteData(selectedRow[0])
+    db.deleteData(selectedRow[0])
     titleEntry.delete(0, END)
     authorEntry.delete(0, END)
     yearEntry.delete(0, END)
@@ -51,7 +53,7 @@ def delete():
     view()
 
 def update():
-    backend.updateData(selectedRow[0], title.get(), author.get(), year.get(), isbn.get())
+    db.updateData(selectedRow[0], title.get(), author.get(), year.get(), isbn.get())
     view()
 
 if __name__=='__main__':
